@@ -77,9 +77,13 @@ if (config.isDev) {
 }
 
 // ─────────────────────────────────────────────
-// 6. HEALTH CHECK
+// 6. HEALTH CHECK & ROOT
 // ─────────────────────────────────────────────
-// Used by deployment platforms to verify the server is running
+// Used by deployment platforms (like Render) to verify the server is running
+app.get('/', (req, res) => {
+  res.status(200).send('LinguaTranslate API is up and running!');
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'success',
