@@ -1,0 +1,165 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 2.5);
+  --radius-4xl: calc(var(--radius) * 3);
+}
+
+:root {
+  /* Apple Light Mode Palette */
+  --background: oklch(0.975 0 0); /* #F2F2F7 - Standard iOS background */
+  --foreground: oklch(0.1 0 0); /* #000000 - High contrast text */
+  
+  --card: oklch(1 0 0); /* #FFFFFF */
+  --card-foreground: oklch(0.1 0 0);
+  
+  --popover: oklch(1 0 0 / 0.85); /* Translucent popover for glass effect */
+  --popover-foreground: oklch(0.1 0 0);
+  
+  --primary: oklch(0.57 0.17 250); /* #007AFF - Classic Apple Blue */
+  --primary-foreground: oklch(1 0 0);
+  
+  --secondary: oklch(0.93 0 0); /* #E5E5EA */
+  --secondary-foreground: oklch(0.2 0 0);
+  
+  --muted: oklch(0.93 0 0);
+  --muted-foreground: oklch(0.5 0 0); /* #8E8E93 */
+  
+  --accent: oklch(0.95 0 0);
+  --accent-foreground: oklch(0.2 0 0);
+  
+  --destructive: oklch(0.6 0.2 25); /* #FF3B30 - Apple Red */
+  --destructive-foreground: oklch(1 0 0);
+  
+  --border: oklch(0.9 0 0); /* #C6C6C8 */
+  --input: oklch(0.95 0 0);
+  --ring: oklch(0.57 0.17 250 / 0.4);
+  
+  --radius: 1rem; /* 16px base radius - gives that smooth rounded iOS feel */
+
+  --glass-bg: oklch(1 0 0 / 0.7);
+  --glass-border: oklch(0.9 0 0 / 0.5);
+}
+
+.dark {
+  /* Apple Dark Mode Palette */
+  --background: oklch(0 0 0); /* #000000 - True black for OLED displays */
+  --foreground: oklch(0.98 0 0); /* #FFFFFF */
+  
+  --card: oklch(0.2 0 0); /* #1C1C1E - iOS elevated surface color */
+  --card-foreground: oklch(0.98 0 0);
+  
+  --popover: oklch(0.2 0 0 / 0.85);
+  --popover-foreground: oklch(0.98 0 0);
+  
+  --primary: oklch(0.6 0.16 250); /* #0A84FF - iOS Dark Mode Blue */
+  --primary-foreground: oklch(1 0 0);
+  
+  --secondary: oklch(0.25 0 0); /* #2C2C2E */
+  --secondary-foreground: oklch(0.9 0 0);
+  
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.65 0 0); /* #98989D */
+  
+  --accent: oklch(0.3 0 0);
+  --accent-foreground: oklch(0.9 0 0);
+  
+  --destructive: oklch(0.6 0.2 25); /* #FF453A - iOS Dark Mode Red */
+  --destructive-foreground: oklch(1 0 0);
+  
+  --border: oklch(0.3 0 0); /* #38383A */
+  --input: oklch(0.25 0 0);
+  --ring: oklch(0.6 0.16 250 / 0.4);
+
+  --glass-bg: oklch(0.1 0 0 / 0.6);
+  --glass-border: oklch(0.3 0 0 / 0.3);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  /* Typography overrides for Apple feel */
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight font-semibold;
+  }
+}
+
+/* ───────────────────────────────────────────── */
+/* VisionOS / iOS 18 Glass Effects               */
+/* ───────────────────────────────────────────── */
+.glass-panel {
+  @apply bg-glass-bg border border-glass-border backdrop-blur-xl shadow-sm;
+}
+
+.apple-shadow {
+  box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.05), 0 8px 32px -8px rgba(0, 0, 0, 0.03);
+}
+
+.dark .apple-shadow {
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.3);
+}
+
+/* ───────────────────────────────────────────── */
+/* Scrollbar (Minimal, hidden until scroll)      */
+/* ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/30 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/50;
+}
