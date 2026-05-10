@@ -56,6 +56,7 @@ async function translateWithMyMemory(text, sourceLanguage, targetLanguage) {
     params: {
       q: text,
       langpair: langPair,
+      de: 'varun.developer2026@gmail.com', // Using an email bypasses IP limits and gives 5000/words a day
     },
     timeout: 10000, // 10 second timeout
   });
