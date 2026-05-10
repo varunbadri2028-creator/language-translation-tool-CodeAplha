@@ -110,6 +110,36 @@ async function translateWithLibreTranslate(text, sourceLanguage, targetLanguage)
 }
 
 // ─────────────────────────────────────────────
+// PROVIDER 3: Free Google Translate API
+// ─────────────────────────────────────────────
+// Uses the free Google Translate web endpoint for much better
+// support for native scripts (like Telugu, Hindi) instead of romanization.
+async function translateWithGoogle(text, sourceLanguage, targetLanguage) {
+  const url = 'https://translate.googleapis.com/translate_a/single';
+  
+  logger.debug('Calling Google Translate API', { sourceLanguage, targetLanguage });
+
+  const response = await axios.get(url, {
+    params: {
+      client: 'gtx',
+      sl: sourceLanguage,
+      tl: targetLanguage,
+      dt: 't',
+      q: text,
+    },
+    timeout: 10000,
+  });
+
+  if (!response.data || !response.data[0]) {
+    throw new AppError('Google Translate returned an invalid response.', 502);
+  }
+
+  // The response is a nested array. We map over the chunks and join them.
+  const translatedText = response.data[0].map(chunk => chunk[0]).join('');
+  return translatedText;
+}
+
+// ─────────────────────────────────────────────
 // MAIN TRANSLATE FUNCTION (Provider Router)
 // ─────────────────────────────────────────────
 
@@ -122,7 +152,8 @@ async function translateWithLibreTranslate(text, sourceLanguage, targetLanguage)
  * @returns {Promise<{translatedText: string, provider: string}>}
  */
 async function translate(text, sourceLanguage, targetLanguage) {
-  const provider = config.translationProvider;
+  // Override config to always use google for better script support
+  const provider = 'google'; 
 
   logger.info('Translation request', {
     provider,
@@ -144,8 +175,8 @@ async function translate(text, sourceLanguage, targetLanguage) {
         break;
 
       case 'google':
-        // Future implementation
-        throw new AppError('Google Translate provider is not yet configured.', 501);
+        translatedText = await translateWithGoogle(text, sourceLanguage, targetLanguage);
+        break;
 
       default:
         throw new AppError(`Unknown translation provider: ${provider}`, 500, false);
